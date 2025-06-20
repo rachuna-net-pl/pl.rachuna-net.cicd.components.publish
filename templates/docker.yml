@@ -1,0 +1,56 @@
+---
+spec:
+  inputs:
+    docker_image:
+      default: docker:24
+      description: "The docker image to use for the job"
+    docker_host:
+      # default: tcp://localhost:2375
+      default: ""
+      description: "The docker host to use for the job"
+    docker_tls_certdir:
+      default: ""
+      description: "The docker tls certdir to use for the job"
+    container_version:
+      default: latest
+      description: "The release candidate version of the container"
+---
+variables:
+  CONTAINER_IMAGE_DOCKER: $[[ inputs.docker_image ]]
+  DOCKER_HOST: $[[ inputs.docker_host ]]
+  DOCKER_TLS_CERTDIR: $[[ inputs.docker_tls_certdir ]]
+  CONTAINER_VERSION: $[[ inputs.container_version ]]
+
+
+include:
+  - local: /source/logo.yml
+  - local: /source/input_variables_docker.yml
+
+
+.docker:publish:base:
+  stage: publish
+  image: $CONTAINER_IMAGE_DOCKER
+  services:
+    - name: docker:24-dind
+      alias: docker
+  before_script:
+    - !reference [.logo]
+    - git config --global --add safe.directory ${CI_PROJECT_DIR}
+    - !reference [.input-variables-docker]
+
+
+🌐 publish docker image:
+  extends: ['.docker:publish:base']
+  script:
+    - |
+      echo ""
+      echo -e "🌐 docker publish"
+      echo "CONTAINER_IMAGE_VERSION=\"$CI_REGISTRY_IMAGE:$CONTAINER_VERSION\"" > versioning_container.env
+      docker build --build-arg CONTAINER_VERSION=$CONTAINER_VERSION -t $CI_REGISTRY_IMAGE:$CONTAINER_VERSION .
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+      docker push $CI_REGISTRY_IMAGE:$CONTAINER_VERSION
+  artifacts:
+    reports:
+      dotenv: versioning_container.env
+  rules:
+    - when: never
