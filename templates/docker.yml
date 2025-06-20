@@ -45,7 +45,7 @@ include:
     - |
       echo ""
       echo -e "🌐 docker publish"
-      echo "CONTAINER_IMAGE_VERSION=\"$CI_REGISTRY_IMAGE:$CONTAINER_VERSION\"" > versioning_container.env
+      echo "CONTAINER_IMAGE_VERSION=$CI_REGISTRY_IMAGE:$CONTAINER_VERSION" > versioning_container.env
       docker build --build-arg CONTAINER_VERSION=$CONTAINER_VERSION -t $CI_REGISTRY_IMAGE:$CONTAINER_VERSION .
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
       docker push $CI_REGISTRY_IMAGE:$CONTAINER_VERSION
