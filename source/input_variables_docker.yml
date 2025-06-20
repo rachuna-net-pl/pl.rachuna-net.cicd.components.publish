@@ -1,0 +1,14 @@
+---
+.input-variables-docker:
+  - |
+    echo ""
+    echo -e "\033[1;33m===>\033[0m 💾 Print set inputs Variables"
+    echo -e "┌────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────┐"
+    printf "| %-30s | %-100s |\n" "Variable" "Value"
+    echo -e "├────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────┤"
+    printf "| %-30s | %-100s |\n" "DOCKER_HOST" "$DOCKER_HOST"
+    printf "| %-30s | %-100s |\n" "DOCKER_TLS_CERTDIR" "$DOCKER_TLS_CERTDIR"
+    printf "| %-30s | %-100s |\n" "CONTAINER_IMAGE_DOCKER" "$CONTAINER_IMAGE_DOCKER"
+    printf "| %-30s | %-100s |\n" "CONTAINER_VERSION" "$CONTAINER_VERSION"
+    printf "| %-30s | %-100s |\n" "CI_REGISTRY_IMAGE" "$CI_REGISTRY_IMAGE"
+    echo -e "└────────────────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────┘"
