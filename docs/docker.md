@@ -68,8 +68,15 @@ docker push $CI_REGISTRY_IMAGE:$CONTAINER_VERSION
 
 ```yaml
 include:
-  component: registry.gitlab.com/your-group/gitlab-components/docker-publish
-  inputs:
-    docker_image: "docker:26"
-    container_version: "v1.2.3"
+  - component: $CI_SERVER_FQDN/pl.rachuna-net/cicd/components/publish/docker@$COMPONENT_VERSION_PUBLISH
+    inputs:
+      docker_image: $CONTAINER_IMAGE_BUILD
+
+🌐 publish docker image:
+  needs:
+    - job: 🕵 Set Version
+      artifacts: true
+  variables:
+    CONTAINER_VERSION: $RELEASE_CANDIDATE_VERSION
+  rules: !reference [.rule:publish:docker, rules]
 ```
