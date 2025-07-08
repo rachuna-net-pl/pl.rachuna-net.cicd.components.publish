@@ -1,5 +1,5 @@
 ::include{file=.gitlab/badges.md}
-# ![](https://gitlab.com/pl.rachuna-net/infrastructure/terraform/modules/gitlab-project/-/raw/main/images/gitlab-component.png){height=20px} Publish
+# ![](https://gitlab.com/pl.rachuna-net/infrastructure/terraform/iac-gitlab/-/raw/main/images/project/gitlab-component.png){height=20px} Publish
 
 Komponent **CI/CD katalogu** odpowiada za publikacje binariów, artefaktów, konfiguracji oraz innych obiektów.
 
